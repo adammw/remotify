@@ -1,0 +1,67 @@
+console.log('remotify content script running');
+
+var playerUrl = null;
+var player = document.querySelector('#app-player');
+
+
+chrome.runtime.onConnect.addListener(function(port) {
+  console.assert(port.name == "remotify");
+
+  var sendMessageToPlayer = function(e) {
+    if (e.origin != 'https://play.spotify.com') return;
+    console.log('[TO PLAYER] >>',e.origin,e.data);
+    try {
+      port.postMessage({type: "message_to_player", payload: e.data});
+    } catch (e) {
+      // assume all errors are fatal and remove ourselves
+      player.contentWindow.removeEventListener('message', sendMessageToPlayer);
+      port.disconnect();
+    }
+  };
+
+  var bridgeTeardown = function() {
+    console.log('bridge teardown...');
+    player.contentWindow.removeEventListener('message', sendMessageToPlayer);
+    player.src = playerUrl;
+    port.disconnect();
+  };
+
+  port.onMessage.addListener(function(request) {
+    console.log('R <<', request);
+    switch(request.type) {
+      case "bridge_setup":
+        if (!player) {
+          port.postMessage({type: "bridge_setup_result", success: false, payload: null});
+        } else {
+          if (!playerUrl)
+            playerUrl = player.src;
+
+          port.postMessage({type: "bridge_setup_result", success: true, payload: {url: playerUrl}});
+          player.src = 'https://play.spotify.com/apps/blank/';
+          player.addEventListener('load', function() {
+            player.contentWindow.addEventListener('message', sendMessageToPlayer);
+          });
+        }
+        break;
+      case "bridge_teardown":
+        bridgeTeardown();
+        break;
+      case "message_from_player":
+        console.log('[FROM PLAYER] <<', request.payload);
+        var e = new MessageEvent('message', {
+          data: request.payload, 
+          origin: 'https://play.spotify.com',
+          source: player.contentWindow
+        });
+        
+        window.dispatchEvent(e);
+        break;
+      default:
+        console.warn('[remotify] unhandled request type', request.type);
+    }
+  });
+  port.onDisconnect.addListener(function() {
+    console.log('port disconnected...');
+    bridgeTeardown();
+  });
+});
