@@ -3,6 +3,7 @@ var playerFrame;
 var counter = 0;
 var callbacks = {};
 var activeTabId = null;
+var activateTabEvents = ['application_open_uri', 'client_show_context_ui'];
 
 chrome.tabs.query({url: 'https://play.spotify.com/*'}, function(tabs) {
   if (!tabs.length) {
@@ -11,7 +12,7 @@ chrome.tabs.query({url: 'https://play.spotify.com/*'}, function(tabs) {
     return;
   }
 
-  var tabId = tabs[0].id;
+  var tabId = tabs[0].id, windowId = tabs[0].windowId;
 
   chrome.tabs.executeScript(tabId, {file: 'content_script.js', runAt: 'document_end'}, function() {
     var port = chrome.tabs.connect(tabId, {name: 'remotify'});
@@ -44,6 +45,16 @@ chrome.tabs.query({url: 'https://play.spotify.com/*'}, function(tabs) {
       var msg = {type: "message_from_player", payload: e.data};
       console.log('R >>', msg);
       port.postMessage(msg);
+      try {
+        var data = JSON.parse(msg.payload);
+        console.log(data);
+        if (data.type !== 'bridge_request') return;
+        if (activateTabEvents.indexOf(data.name) !== -1) {
+          console.log('activating tab...');
+          chrome.tabs.update(tabId, {active: true});
+          chrome.windows.update(windowId, {focused: true});
+        }
+      } catch(err) {}
     };
 
     var onUnload = function(e) {
