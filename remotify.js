@@ -5,7 +5,11 @@ var callbacks = {};
 var activeTabId = null;
 
 chrome.tabs.query({url: 'https://play.spotify.com/*'}, function(tabs) {
-  if (!tabs.length) return;
+  if (!tabs.length) {
+    document.querySelector('#loading-msg').classList.add('hidden');
+    document.querySelector('#no-tab-msg').classList.remove('hidden');
+    return;
+  }
 
   var port = chrome.tabs.connect(tabs[0].id, {name: 'remotify'});
   port.postMessage({type: "bridge_setup", version: manifest.version});
@@ -14,6 +18,7 @@ chrome.tabs.query({url: 'https://play.spotify.com/*'}, function(tabs) {
     switch(request.type) {
       case "bridge_setup_result":
         if (request.success) {
+          document.querySelector('#loading-msg').classList.add('hidden');
           playerFrame = document.createElement('iframe');
           playerFrame.id = 'app-player';
           playerFrame.src = request.payload.url;
@@ -36,7 +41,7 @@ chrome.tabs.query({url: 'https://play.spotify.com/*'}, function(tabs) {
   window.addEventListener('message', function(e) {
     if (e.origin != 'https://play.spotify.com') return;
     var msg = {type: "message_from_player", payload: e.data};
-    console.log('R >>', msg)
+    console.log('R >>', msg);
     port.postMessage(msg);
   });
 
