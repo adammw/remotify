@@ -5,13 +5,6 @@
   "permissions": [
     "https://play.spotify.com/*"
   ],
-  "content_scripts": [
-    {
-      "matches": ["https://play.spotify.com/*"],
-      "js": ["content_script.js"],
-      "run_at": "document_end"
-    }
-  ],
   "browser_action": {
     "default_title": "remotify",
     "default_popup": "remotify.html"

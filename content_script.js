@@ -1,11 +1,12 @@
 console.log('remotify content script running');
 
-var playerUrl = null;
-var player = document.querySelector('#app-player');
-
-
-chrome.runtime.onConnect.addListener(function(port) {
+chrome.runtime.onConnect.addListener(function listener(port) {
   console.assert(port.name == "remotify");
+
+  chrome.runtime.onConnect.removeListener(listener);
+
+  var playerUrl = null;
+  var player = document.querySelector('#app-player');
 
   var sendMessageToPlayer = function(e) {
     if (e.origin != 'https://play.spotify.com') return;
