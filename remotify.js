@@ -39,21 +39,27 @@ chrome.tabs.query({url: 'https://play.spotify.com/*'}, function(tabs) {
       }
     });
 
-    port.onDisconnect.addListener(function() {
-      document.body.removeChild(playerFrame);
-      playerFrame = null;
-    });
-
-    window.addEventListener('message', function(e) {
+    var onMessage = function(e) {
       if (e.origin != 'https://play.spotify.com') return;
       var msg = {type: "message_from_player", payload: e.data};
       console.log('R >>', msg);
       port.postMessage(msg);
-    });
+    };
 
-    window.addEventListener('unload', function(e) {
+    var onUnload = function(e) {
       port.postMessage({type: 'bridge_teardown'});
       port.disconnect();
+    };
+
+    window.addEventListener('message', onMessage);
+    window.addEventListener('unload', onUnload);
+
+    port.onDisconnect.addListener(function() {
+      document.body.removeChild(playerFrame);
+      playerFrame = null;
+
+      window.removeEventListener('message', onMessage);
+      window.removeEventListener('unload', onUnload);
     });
   });
 });
