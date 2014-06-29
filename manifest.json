@@ -2,11 +2,18 @@
   "name": "remotify",
   "version": "0.0.0",
   "manifest_version": 2,
+  "icons": {
+    "128": "images/icon_128.png"
+  },
   "permissions": [
     "https://play.spotify.com/*"
   ],
   "browser_action": {
     "default_title": "remotify",
-    "default_popup": "remotify.html"
+    "default_popup": "remotify.html",
+    "default_icon": {
+      "19": "images/icon_19.png",
+      "38": "images/icon_38.png"
+    }
   }
 }
