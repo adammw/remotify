@@ -5,7 +5,6 @@ chrome.runtime.onConnect.addListener(function listener(port) {
 
   chrome.runtime.onConnect.removeListener(listener);
 
-  var playerUrl = null;
   var player = document.querySelector('#app-player');
 
   var sendMessageToPlayer = function(e) {
@@ -23,7 +22,6 @@ chrome.runtime.onConnect.addListener(function listener(port) {
   var bridgeTeardown = function() {
     console.log('bridge teardown...');
     player.contentWindow.removeEventListener('message', sendMessageToPlayer);
-    player.src = playerUrl;
     port.disconnect();
   };
 
@@ -34,14 +32,17 @@ chrome.runtime.onConnect.addListener(function listener(port) {
         if (!player) {
           port.postMessage({type: "bridge_setup_result", success: false, payload: null});
         } else {
-          if (!playerUrl)
-            playerUrl = player.src;
-
-          port.postMessage({type: "bridge_setup_result", success: true, payload: {url: playerUrl}});
-          player.src = 'https://play.spotify.com/apps/blank/';
-          player.addEventListener('load', function() {
-            player.contentWindow.addEventListener('message', sendMessageToPlayer);
+          port.postMessage({
+            type: "bridge_setup_result",
+            success: true,
+            payload: {
+              height: player.offsetHeight,
+              width: player.offsetWidth,
+              url: player.src
+            }
           });
+
+          player.contentWindow.addEventListener('message', sendMessageToPlayer);
         }
         break;
       case "bridge_teardown":
@@ -50,11 +51,11 @@ chrome.runtime.onConnect.addListener(function listener(port) {
       case "message_from_player":
         console.log('[FROM PLAYER] <<', request.payload);
         var e = new MessageEvent('message', {
-          data: request.payload, 
+          data: request.payload,
           origin: 'https://play.spotify.com',
           source: player.contentWindow
         });
-        
+
         window.dispatchEvent(e);
         break;
       default:

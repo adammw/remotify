@@ -29,6 +29,8 @@ chrome.tabs.query({url: 'https://play.spotify.com/*'}, function(tabs) {
             playerFrame.id = 'app-player';
             playerFrame.src = request.payload.url;
             playerFrame.frameBorder = 0;
+            playerFrame.style.height = request.payload.height + 'px';
+            playerFrame.style.width = request.payload.width + 'px';
             document.body.appendChild(playerFrame);
           }
           break;
