@@ -1,6 +1,9 @@
 {
   "name": "remotify",
+  "description": "Easily access Spotify mini-player from any tab",
+  "author": "adammw",
   "version": "0.0.1",
+  "homepage_url": "https://github.com/adammw/remotify",
   "manifest_version": 2,
   "icons": {
     "128": "images/icon_128.png"
