@@ -1,4 +1,22 @@
-console.log('remotify content script running');
+var manifest = chrome.runtime.getManifest(),
+    log = {};
+
+(function(log) {
+  var header = '[remotify v' + manifest.version + ']';
+  ["debug", "error", "info", "log", "warn"].forEach(function(key) {
+    log[key] = function() {
+      var args = Array.prototype.slice.call(arguments);
+      if ('string' === typeof args[0]) {
+        args[0] = header + ' ' + args[0];
+      } else {
+        args.unshift(header);
+      }
+      console[key].apply(console, args);
+    };
+  });
+})(log);
+
+log.log('content script running');
 
 chrome.runtime.onConnect.addListener(function listener(port) {
   console.assert(port.name == "remotify");
@@ -9,7 +27,7 @@ chrome.runtime.onConnect.addListener(function listener(port) {
 
   var sendMessageToPlayer = function(e) {
     if (e.origin != 'https://play.spotify.com') return;
-    console.log('[TO PLAYER] >>',e.origin,e.data);
+    log.debug('[TO PLAYER] >>',e.origin,e.data);
     try {
       port.postMessage({type: "message_to_player", payload: e.data});
     } catch (e) {
@@ -20,13 +38,13 @@ chrome.runtime.onConnect.addListener(function listener(port) {
   };
 
   var bridgeTeardown = function() {
-    console.log('bridge teardown...');
+    log.log('bridge teardown...');
     player.contentWindow.removeEventListener('message', sendMessageToPlayer);
     port.disconnect();
   };
 
   port.onMessage.addListener(function(request) {
-    console.log('R <<', request);
+    log.debug('[REQ] <<', request);
     switch(request.type) {
       case "bridge_setup":
         if (!player) {
@@ -49,7 +67,7 @@ chrome.runtime.onConnect.addListener(function listener(port) {
         bridgeTeardown();
         break;
       case "message_from_player":
-        console.log('[FROM PLAYER] <<', request.payload);
+        log.debug('[FROM PLAYER] <<', request.payload);
         var e = new MessageEvent('message', {
           data: request.payload,
           origin: 'https://play.spotify.com',
@@ -59,11 +77,11 @@ chrome.runtime.onConnect.addListener(function listener(port) {
         window.dispatchEvent(e);
         break;
       default:
-        console.warn('[remotify] unhandled request type', request.type);
+        log.warn('unhandled request type', request.type);
     }
   });
   port.onDisconnect.addListener(function() {
-    console.log('port disconnected...');
+    log.log('port disconnected...');
     bridgeTeardown();
   });
 });
