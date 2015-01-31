@@ -20,7 +20,7 @@
     }
   },
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["peer.js", "background.js"],
     "persistent": false
   },
   "commands": {

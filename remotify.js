@@ -27,11 +27,21 @@ chrome.tabs.query({url: 'https://play.spotify.com/*'}, function(tabs) {
             document.querySelector('#loading-msg').classList.add('hidden');
             playerFrame = document.createElement('iframe');
             playerFrame.id = 'app-player';
+            playerFrame.className = 'card'
             playerFrame.src = request.payload.url;
             playerFrame.frameBorder = 0;
             playerFrame.style.height = request.payload.height + 'px';
             playerFrame.style.width = request.payload.width + 'px';
-            document.body.appendChild(playerFrame);
+
+            document.querySelector('#card-container').appendChild(playerFrame);
+            document.querySelector('#mobile-switch').classList.remove('hidden');
+            chrome.runtime.getBackgroundPage(function(background) {
+              var peerId = background.peer.id;
+              var img = document.createElement('img');
+              var width = parseInt(request.payload.width) - 40;
+              img.src = 'https://chart.googleapis.com/chart?chs=' + width + 'x' + width + '&cht=qr&chl=http://jsbin.com/sexis/1?' + peerId + '&choe=UTF-8';
+              document.querySelector('#qrcode').appendChild(img);
+            });
           }
           break;
         case "message_to_player":
@@ -75,4 +85,9 @@ chrome.tabs.query({url: 'https://play.spotify.com/*'}, function(tabs) {
       window.removeEventListener('unload', onUnload);
     });
   });
+});
+
+document.querySelector('#mobile-switch').addEventListener('click', function(e) {
+  e.preventDefault();
+  document.querySelector('#card-container').classList.toggle('flipped');
 });

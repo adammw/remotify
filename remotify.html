@@ -2,58 +2,12 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <style>
-  @font-face {
-    font-family: 'proxima_nova';
-    src: url('https://glue-static.s3-external-3.amazonaws.com/fonts/proxima_nova_thin_1.eot');
-    src: url('https://glue-static.s3-external-3.amazonaws.com/fonts/proxima_nova_thin_1.eot?#iefix') format('embedded-opentype'), url('https://glue-static.s3-external-3.amazonaws.com/fonts/proxima_nova_thin_1.woff') format('woff'), url('https://glue-static.s3-external-3.amazonaws.com/fonts/proxima_nova_thin_1.ttf') format('truetype');
-    font-weight: 100;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'proxima_nova';
-    src: url('https://glue-static.s3-external-3.amazonaws.com/fonts/proxima_nova_regular_1.eot');
-    src: url('https://glue-static.s3-external-3.amazonaws.com/fonts/proxima_nova_regular_1.eot?#iefix') format('embedded-opentype'), url('https://glue-static.s3-external-3.amazonaws.com/fonts/proxima_nova_regular_1.woff') format('woff'), url('https://glue-static.s3-external-3.amazonaws.com/fonts/proxima_nova_regular_1.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-  }
-  @font-face {
-    font-family: 'proxima_nova';
-    src: url('https://glue-static.s3-external-3.amazonaws.com/fonts/proxima_nova_semibold_1.eot');
-    src: url('https://glue-static.s3-external-3.amazonaws.com/fonts/proxima_nova_semibold_1.eot?#iefix') format('embedded-opentype'), url('https://glue-static.s3-external-3.amazonaws.com/fonts/proxima_nova_semibold_1.woff') format('woff'), url('https://glue-static.s3-external-3.amazonaws.com/fonts/proxima_nova_semibold_1.ttf') format('truetype');
-    font-weight: 600;
-    font-style: normal;
-  }
-  body {
-    font-family: 'proxima_nova', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    font-weight: 300;
-    background: #1c1c1f;
-    color: #88898c;
-    margin: 0 auto;
-    width: 250px;
-  }
-  h1 {
-    font-weight: 300;
-    color: #dfe0e6;
-    text-align: center;
-    margin: 0.67em 0 0 0;
-  }
-  #container {
-    padding: 0 10px;
-    text-align: center;
-  }
-  #app-player {
-    display: block;
-    height: 366px;
-    width: 250px;
-  }
-  .hidden {
-    display: none;
-  }
-  </style>
+  <link rel="stylesheet" href="remotify.css" />
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
   <h1>remotify</h1>
+  <a href="#" id="mobile-switch" class="hidden"><i class="fa fa-qrcode"></i></a>
   <div id="container">
     <div id="loading-msg">
       <p>Looking for Spotify ...</p>
@@ -64,5 +18,8 @@
     </div>
   </div>
   <script src="remotify.js"></script>
+  <div id="card-container">
+    <div id="qrcode" class="card back"></div>
+  </div>
 </body>
 </html>
