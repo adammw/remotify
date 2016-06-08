@@ -49,14 +49,14 @@
 			"description": "Volume Up",
 			"global": true,
 			"suggested_key": {
-				"default": "Ctrl+Shift+Up"
+				"default": "Ctrl+Shift+Up Arrow"
 			}
 		},
 		"volume-down":{
 			"description": "Volume Down",
 			"global": true,
 			"suggested_key": {
-				"default": "Ctrl+Shift+Down"
+				"default": "Ctrl+Shift+Down Arrow"
 			}
 		}
 	}
