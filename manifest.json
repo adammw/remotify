@@ -1,63 +1,63 @@
 {
-  "name": "remotify",
-  "description": "Easily access Spotify mini-player from any tab",
-  "author": "adammw",
-  "version": "0.0.2",
-  "homepage_url": "https://github.com/adammw/remotify",
-  "manifest_version": 2,
-  "icons": {
-    "128": "images/icon_128.png"
-  },
-  "permissions": [
-    "https://play.spotify.com/*"
-  ],
-  "browser_action": {
-    "default_title": "remotify",
-    "default_popup": "remotify.html",
-    "default_icon": {
-      "19": "images/icon_19.png",
-      "38": "images/icon_38.png"
-    }
-  },
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": false
-  },
-  "commands": {
-    "previous-track": {
-      "description": "Previous track",
-      "global": true,
-      "suggested_key": {
-        "default": "MediaPrevTrack"
-      }
-    },
-    "next-track": {
-      "description": "Next track",
-      "global": true,
-      "suggested_key": {
-        "default": "MediaNextTrack"
-      }
-    },
-    "play-pause": {
-      "description": "Play/Pause",
-      "global": true,
-      "suggested_key": {
-        "default": "MediaPlayPause"
-      },
-    "volume-up":{
-      "description": "Volume Up",
-      "global": true,
-      "suggested_key": {
-        "default": "Ctrl+Shift+Up"
-      }
-    },
-    "volume-down":{
-      "description": "Volume Down",
-      "global": true,
-      "suggested_key": {
-        "default": "Ctrl+Shift+Down"
-      }
-    }
-    }
-  }
+	"name": "remotify",
+	"description": "Easily access Spotify mini-player from any tab",
+	"author": "adammw,froggerman330",
+	"version": "0.0.3",
+	"homepage_url": "https://github.com/adammw/remotify",
+	"manifest_version": 2,
+	"icons": {
+		"128": "images/icon_128.png"
+	},
+	"permissions": [
+		"https://play.spotify.com/*"
+	],
+	"browser_action": {
+		"default_title": "remotify",
+		"default_popup": "remotify.html",
+		"default_icon": {
+			"19": "images/icon_19.png",
+			"38": "images/icon_38.png"
+		}
+	},
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	},
+	"commands": {
+		"previous-track": {
+			"description": "Previous track",
+			"global": true,
+			"suggested_key": {
+				"default": "MediaPrevTrack"
+			}
+		},
+		"next-track": {
+			"description": "Next track",
+			"global": true,
+			"suggested_key": {
+				"default": "MediaNextTrack"
+			}
+		},
+		"play-pause": {
+			"description": "Play/Pause",
+			"global": true,
+			"suggested_key": {
+				"default": "MediaPlayPause"
+			},
+			"volume-up":{
+				"description": "Volume Up",
+				"global": true,
+				"suggested_key": {
+					"default": "Ctrl+Shift+Up"
+				}
+			},
+			"volume-down":{
+				"description": "Volume Down",
+				"global": true,
+				"suggested_key": {
+					"default": "Ctrl+Shift+Down"
+				}
+			}
+		}
+	}
 }
