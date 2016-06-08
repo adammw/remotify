@@ -44,7 +44,6 @@
       "suggested_key": {
         "default": "MediaPlayPause"
       },
-      +    },
     "volume-up":{
       "description": "Volume Up",
       "global": true,
