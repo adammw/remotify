@@ -30,5 +30,11 @@ chrome.commands.onCommand.addListener(function(command) {
     case 'play-pause':
       sendBridgeRequest('player_play_toggle');
       break;
+    case 'volume-up':
+      sendBridgeRequest('player_volume_up');
+      break;
+    case 'volume-down':
+      sendBridgeRequest('player_volume_down');
+      break;
   }
 });
