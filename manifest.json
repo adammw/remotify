@@ -1,7 +1,7 @@
 {
   "name": "remotify",
   "description": "Easily access Spotify mini-player from any tab",
-  "author": "adammw",
+  "author": "adammw,froggerman330",
   "version": "0.0.2",
   "homepage_url": "https://github.com/adammw/remotify",
   "manifest_version": 2,
@@ -43,6 +43,20 @@
       "global": true,
       "suggested_key": {
         "default": "MediaPlayPause"
+      }
+    },
+    "volume-up":{
+      "description": "Volume Up",
+      "global": true,
+      "suggested_key": {
+        "default": "Ctrl+Shift+Up Arrow"
+      }
+    },
+    "volume-down":{
+      "description": "Volume Down",
+      "global": true,
+      "suggested_key": {
+        "default": "Ctrl+Shift+Down Arrow"
       }
     }
   }
