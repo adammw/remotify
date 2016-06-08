@@ -43,20 +43,20 @@
 			"global": true,
 			"suggested_key": {
 				"default": "MediaPlayPause"
-			},
-			"volume-up":{
-				"description": "Volume Up",
-				"global": true,
-				"suggested_key": {
-					"default": "Ctrl+Shift+Up"
-				}
-			},
-			"volume-down":{
-				"description": "Volume Down",
-				"global": true,
-				"suggested_key": {
-					"default": "Ctrl+Shift+Down"
-				}
+			}
+		},
+		"volume-up":{
+			"description": "Volume Up",
+			"global": true,
+			"suggested_key": {
+				"default": "Ctrl+Shift+Up"
+			}
+		},
+		"volume-down":{
+			"description": "Volume Down",
+			"global": true,
+			"suggested_key": {
+				"default": "Ctrl+Shift+Down"
 			}
 		}
 	}
